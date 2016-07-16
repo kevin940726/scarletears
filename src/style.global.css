@@ -1,0 +1,19 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanstc.css);
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	font-family: 'Roboto', 'Noto Sans TC', sans-serif;
+}
+
+#root {
+	height: 100%;
+	width: 100%;
+}
