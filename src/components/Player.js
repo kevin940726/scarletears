@@ -33,9 +33,6 @@ const Player = CustomTheme => class extends React.Component {
 
 		this.onEnd = this.props.onEnd || (() => {});
 	}
-	componentDidMount() {
-		this.refs.youtube.onMountOrLoad();
-	}
 
 	onReady() {
 		if (this.props.type === 'youtube') {
@@ -117,48 +114,36 @@ const Player = CustomTheme => class extends React.Component {
 	}
 
 	render() {
-		// const player = type => ({
-		// 	youtube: (<YoutubePlayer
-		// 		ref="youtube"
-		// 		trackUrl={this.props.trackUrl}
-		// 		onReady={this.onReady}
-		// 		onEnd={this.onEnd}
-		// 		getVolume={this.getVolume}
-		// 		getCurrentTime={this.getCurrentTime}
-		// 		setPlayer={this.setPlayer}
-		// 		setMetaData={this.setMetaData}
-		// 		setVolume={this.setVolume}
-		// 		setCurrentTime={this.setCurrentTime}
-		// 	/>),
-		// 	soundcloud: (<SoundCloudPlayer
-		// 		trackUrl={this.props.trackUrl}
-		// 		onReady={this.onReady}
-		// 		onEnd={this.onEnd}
-		// 		getVolume={this.getVolume}
-		// 		getCurrentTime={this.getCurrentTime}
-		// 		setPlayer={this.setPlayer}
-		// 		setMetaData={this.setMetaData}
-		// 		setVolume={this.setVolume}
-		// 		setCurrentTime={this.setCurrentTime}
-		// 		setDuration={this.setDuration}
-		// 	/>),
-		// }[type]);
+		const player = type => ({
+			youtube: (<YoutubePlayer
+				ref="youtube"
+				trackUrl={this.props.trackUrl}
+				onReady={this.onReady}
+				onEnd={this.onEnd}
+				getVolume={this.getVolume}
+				getCurrentTime={this.getCurrentTime}
+				setPlayer={this.setPlayer}
+				setMetaData={this.setMetaData}
+				setVolume={this.setVolume}
+				setCurrentTime={this.setCurrentTime}
+			/>),
+			soundcloud: (<SoundCloudPlayer
+				trackUrl={this.props.trackUrl}
+				onReady={this.onReady}
+				onEnd={this.onEnd}
+				getVolume={this.getVolume}
+				getCurrentTime={this.getCurrentTime}
+				setPlayer={this.setPlayer}
+				setMetaData={this.setMetaData}
+				setVolume={this.setVolume}
+				setCurrentTime={this.setCurrentTime}
+				setDuration={this.setDuration}
+			/>),
+		}[type]);
 
 		return (
 			<div>
-				{/*{player(this.props.type)}*/}
-				<YoutubePlayer
-					ref="youtube"
-					trackUrl={this.props.trackUrl}
-					onReady={this.onReady}
-					onEnd={this.onEnd}
-					getVolume={this.getVolume}
-					getCurrentTime={this.getCurrentTime}
-					setPlayer={this.setPlayer}
-					setMetaData={this.setMetaData}
-					setVolume={this.setVolume}
-					setCurrentTime={this.setCurrentTime}
-				/>
+				{player(this.props.type)}
 				<CustomTheme
 					// event
 					onReady={this.onReady}

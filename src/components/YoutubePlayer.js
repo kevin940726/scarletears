@@ -1,10 +1,5 @@
 import React from 'react';
-
-const script = document.createElement('script');
-script.type = 'text/javascript';
-script.src = 'https://www.youtube.com/iframe_api';
-document.body.appendChild(script);
-window.YT = null;
+import YoutubeIframeLoader from 'youtube-iframe';
 
 const YOUTUBE_API = 'https://www.googleapis.com/youtube/v3/videos';
 const API_KEY = 'AIzaSyDUnpotytLIiayoXXydWuPf-iWH6KoDJbI';
@@ -26,8 +21,7 @@ class YoutubePlayer extends React.Component {
 		this.clearTimerInterval = this.clearTimerInterval.bind(this);
 	}
 	componentDidMount() {
-		console.log('did mount');
-		window.onYouTubeIframeAPIReady = this.onMountOrLoad;
+		YoutubeIframeLoader.load(YT => this.onMountOrLoad(YT));
 	}
 	componentWillReceiveProps(nextProps) {
 		if (this.props.trackUrl && nextProps.trackUrl !== this.props.trackUrl) {
@@ -38,20 +32,10 @@ class YoutubePlayer extends React.Component {
 		}
 	}
 	componentWillUnmount() {
-		console.log('un mount');
-		delete window.onYouTubeIframeAPIReady;
 		this.clearTimerInterval();
 	}
 
 	onMountOrLoad() {
-		fetch(`${YOUTUBE_API}?part=snippet&id=${this.props.trackUrl}&key=${API_KEY}`)
-			.then(res => res.json())
-			.then(track => {
-				this.props.setMetaData({
-					title: track.items[0].snippet.title,
-				});
-			});
-
 		const player = new window.YT.Player('player', { // eslint-disable-line no-new
 			videoId: this.props.trackUrl,
 			events: {
