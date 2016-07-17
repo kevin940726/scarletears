@@ -12,6 +12,9 @@ const PlayList = Player => class extends React.Component {
 		this.prevTrack = this.prevTrack.bind(this);
 		this.nextTrack = this.nextTrack.bind(this);
 	}
+	componentWillUnmount() {
+		console.log('playlist unmount');
+	}
 
 	prevTrack() {
 		this.setState({ currentTrack: this.state.currentTrack - 1 });
