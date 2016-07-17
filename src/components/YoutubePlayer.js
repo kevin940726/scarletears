@@ -21,10 +21,12 @@ class YoutubePlayer extends React.Component {
 		this.clearTimerInterval = this.clearTimerInterval.bind(this);
 	}
 	componentDidMount() {
-		YoutubeIframeLoader.load(YT => this.onMountOrLoad(YT));
+		if (this.props.type === 'youtube') {
+			YoutubeIframeLoader.load(YT => this.onMountOrLoad(YT));
+		}
 	}
 	componentWillReceiveProps(nextProps) {
-		if (this.props.trackUrl && nextProps.trackUrl !== this.props.trackUrl) {
+		if (nextProps.type === 'youtube' && nextProps.trackUrl !== this.props.trackUrl) {
 			this.setState(
 				{ loaded: false },
 				() => this.state.player.loadVideoById(nextProps.trackUrl)
@@ -35,8 +37,8 @@ class YoutubePlayer extends React.Component {
 		this.clearTimerInterval();
 	}
 
-	onMountOrLoad() {
-		const player = new window.YT.Player('player', { // eslint-disable-line no-new
+	onMountOrLoad(YT) {
+		const player = new YT.Player('player', { // eslint-disable-line no-new
 			videoId: this.props.trackUrl,
 			events: {
 				onReady: this.onPlayerReady,

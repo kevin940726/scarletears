@@ -114,36 +114,33 @@ const Player = CustomTheme => class extends React.Component {
 	}
 
 	render() {
-		const player = type => ({
-			youtube: (<YoutubePlayer
-				ref="youtube"
-				trackUrl={this.props.trackUrl}
-				onReady={this.onReady}
-				onEnd={this.onEnd}
-				getVolume={this.getVolume}
-				getCurrentTime={this.getCurrentTime}
-				setPlayer={this.setPlayer}
-				setMetaData={this.setMetaData}
-				setVolume={this.setVolume}
-				setCurrentTime={this.setCurrentTime}
-			/>),
-			soundcloud: (<SoundCloudPlayer
-				trackUrl={this.props.trackUrl}
-				onReady={this.onReady}
-				onEnd={this.onEnd}
-				getVolume={this.getVolume}
-				getCurrentTime={this.getCurrentTime}
-				setPlayer={this.setPlayer}
-				setMetaData={this.setMetaData}
-				setVolume={this.setVolume}
-				setCurrentTime={this.setCurrentTime}
-				setDuration={this.setDuration}
-			/>),
-		}[type]);
-
 		return (
 			<div>
-				{player(this.props.type)}
+				<YoutubePlayer
+					type={this.props.type}
+					trackUrl={this.props.trackUrl}
+					onReady={this.onReady}
+					onEnd={this.onEnd}
+					getVolume={this.getVolume}
+					getCurrentTime={this.getCurrentTime}
+					setPlayer={this.setPlayer}
+					setMetaData={this.setMetaData}
+					setVolume={this.setVolume}
+					setCurrentTime={this.setCurrentTime}
+				/>
+				<SoundCloudPlayer
+					type={this.props.type}
+					trackUrl={this.props.trackUrl}
+					onReady={this.onReady}
+					onEnd={this.onEnd}
+					getVolume={this.getVolume}
+					getCurrentTime={this.getCurrentTime}
+					setPlayer={this.setPlayer}
+					setMetaData={this.setMetaData}
+					setVolume={this.setVolume}
+					setCurrentTime={this.setCurrentTime}
+					setDuration={this.setDuration}
+				/>
 				<CustomTheme
 					// event
 					onReady={this.onReady}
