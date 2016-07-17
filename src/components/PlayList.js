@@ -1,0 +1,36 @@
+import React from 'react';
+
+const PlayList = Player => class extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			playlist: props.playlist || [],
+			currentTrack: 0,
+		};
+
+		this.prevTrack = this.prevTrack.bind(this);
+		this.nextTrack = this.nextTrack.bind(this);
+	}
+
+	prevTrack() {
+		this.setState({ currentTrack: this.state.currentTrack - 1 });
+	}
+	nextTrack() {
+		this.setState({ currentTrack: this.state.currentTrack + 1 });
+	}
+
+	render() {
+		return (
+			<div>
+				<Player
+					type={this.state.playlist[this.state.currentTrack].type}
+					trackUrl={this.state.playlist[this.state.currentTrack].trackUrl}
+					onEnd={this.nextTrack}
+				/>
+			</div>
+		);
+	}
+};
+
+export default PlayList;
