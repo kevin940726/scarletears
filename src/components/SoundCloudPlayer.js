@@ -13,7 +13,18 @@ class SoundCloudPlayer extends React.Component {
 			player: SC,
 		};
 
-		SC.resolve(props.trackUrl)
+		this.onMountOrLoad = this.onMountOrLoad.bind(this);
+
+		this.onMountOrLoad(this.props.trackUrl);
+	}
+	componentWillReceiveProps(nextProps) {
+		if (this.props.trackUrl && nextProps.trackUrl !== this.props.trackUrl) {
+			this.onMountOrLoad(nextProps.trackUrl);
+		}
+	}
+
+	onMountOrLoad(trackUrl) {
+		SC.resolve(trackUrl)
 			.then(track => {
 				console.log(track);
 
@@ -28,15 +39,17 @@ class SoundCloudPlayer extends React.Component {
 				player.on('time', () => {
 					this.props.setCurrentTime(this.props.getCurrentTime());
 				});
+				player.on('finish', () => {
+					console.log('end');
+					this.props.onEnd();
+				});
+
 				this.props.setPlayer(player, this.props.onReady);
 			});
 	}
 
 	render() {
-		return (
-			<div>
-			</div>
-		);
+		return (<div></div>);
 	}
 }
 

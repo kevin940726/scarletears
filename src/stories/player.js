@@ -6,10 +6,6 @@ import PlayList from '../components/PlayList';
 const MyPlayer = Player(DefaultTheme);
 
 const MyPlayList = PlayList(MyPlayer);
-const playlist = [
-	{ type: 'youtube', trackUrl: '5FjWe31S_0g' },
-	{ type: 'youtube', trackUrl: 'FVpG-RtZFE0' },
-];
 
 storiesOf('Player', module)
 	.add('Youtube', () => (
@@ -26,7 +22,18 @@ storiesOf('Player', module)
 	))
 	.add('list of 2 Youtube', () => (
 		<MyPlayList
-			playlist={playlist}
+			playlist={[
+				{ type: 'youtube', trackUrl: '5FjWe31S_0g' },
+				{ type: 'youtube', trackUrl: 'FVpG-RtZFE0' },
+			]}
+		/>
+	))
+	.add('list of 2 SoundCloud', () => (
+		<MyPlayList
+			playlist={[
+				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/anatu/bleach' },
+				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/iamdogibson/permanentone' },
+			]}
 		/>
 	))
 	.add('empty', () => (
