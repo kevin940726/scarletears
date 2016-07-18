@@ -20,7 +20,9 @@ class SoundCloudPlayer extends React.Component {
 		}
 	}
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.type === 'soundcloud' && nextProps.trackUrl !== this.props.trackUrl) {
+		if (nextProps.type !== 'soundcloud') {
+			this.props.stop();
+		} else if (nextProps.trackUrl !== this.props.trackUrl) {
 			this.onMountOrLoad(nextProps.trackUrl);
 		}
 	}

@@ -26,7 +26,9 @@ class YoutubePlayer extends React.Component {
 		}
 	}
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.type === 'youtube' && nextProps.trackUrl !== this.props.trackUrl) {
+		if (nextProps.type !== 'youtube') {
+			this.props.stop();
+		} else if (nextProps.trackUrl !== this.props.trackUrl) {
 			this.setState(
 				{ loaded: false },
 				() => this.state.player.loadVideoById(nextProps.trackUrl)
