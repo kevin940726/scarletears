@@ -16,14 +16,19 @@ class SoundCloudPlayer extends React.Component {
 		this.onMountOrLoad = this.onMountOrLoad.bind(this);
 
 		if (this.props.type === 'soundcloud') {
+			console.log('construct');
 			this.onMountOrLoad(this.props.trackUrl);
 		}
 	}
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.type !== 'soundcloud') {
-			this.props.stop();
-		} else if (nextProps.trackUrl !== this.props.trackUrl) {
-			this.onMountOrLoad(nextProps.trackUrl);
+		if (this.props.type && nextProps.trackUrl !== this.props.trackUrl) {
+			if (nextProps.type !== 'soundcloud') {
+				this.state.player.off('time');
+				this.state.player.pause();
+				this.state.player.seek(0);
+			} else {
+				this.onMountOrLoad(nextProps.trackUrl);
+			}
 		}
 	}
 
@@ -48,6 +53,7 @@ class SoundCloudPlayer extends React.Component {
 					this.props.onEnd();
 				});
 
+				this.setState({ player });
 				this.props.setPlayer(player, this.props.onReady);
 			});
 	}

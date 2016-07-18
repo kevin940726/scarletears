@@ -17,6 +17,7 @@ const PlayList = Player => class extends React.Component {
 		this.setState({ currentTrack: this.state.currentTrack - 1 });
 	}
 	nextTrack() {
+		console.log('next');
 		this.setState({ currentTrack: this.state.currentTrack + 1 });
 	}
 
@@ -27,6 +28,8 @@ const PlayList = Player => class extends React.Component {
 					type={this.props.playlist[this.state.currentTrack].type}
 					trackUrl={this.props.playlist[this.state.currentTrack].trackUrl}
 					onEnd={this.nextTrack}
+					nextTrack={this.nextTrack}
+					prevTrack={this.prevTrack}
 				/>
 			</div>
 		);

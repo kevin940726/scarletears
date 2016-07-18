@@ -44,6 +44,14 @@ storiesOf('Player', module)
 			]}
 		/>
 	))
+	.add('SoundCloud then Youtube', () => (
+		<MyPlayList
+			playlist={[
+				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/iamdogibson/permanentone' },
+				{ type: 'youtube', trackUrl: '5FjWe31S_0g' },
+			]}
+		/>
+	))
 	.add('empty', () => (
 		<div></div>
 	));

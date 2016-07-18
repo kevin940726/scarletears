@@ -127,6 +127,7 @@ const Player = CustomTheme => class extends React.Component {
 					setMetaData={this.setMetaData}
 					setVolume={this.setVolume}
 					setCurrentTime={this.setCurrentTime}
+					stop={this.stop}
 				/>
 				<SoundCloudPlayer
 					type={this.props.type}
@@ -140,6 +141,7 @@ const Player = CustomTheme => class extends React.Component {
 					setVolume={this.setVolume}
 					setCurrentTime={this.setCurrentTime}
 					setDuration={this.setDuration}
+					stop={this.stop}
 				/>
 				<CustomTheme
 					// event
@@ -156,6 +158,8 @@ const Player = CustomTheme => class extends React.Component {
 					play={this.play}
 					pause={this.pause}
 					stop={this.stop}
+					prevTrack={this.props.prevTrack}
+					nextTrack={this.props.nextTrack}
 					// state
 					track={this.state.track}
 					volume={this.state.volume}
@@ -174,6 +178,10 @@ export const DefaultTheme = props => (
 			<button onClick={props.play}>play</button>
 			<button onClick={props.pause}>pause</button>
 			<button onClick={props.stop}>stop</button>
+		</div>
+		<div>
+			<button onClick={props.prevTrack}>prev</button>
+			<button onClick={props.nextTrack}>next</button>
 		</div>
 		<div>
 			volume:

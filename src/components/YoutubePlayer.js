@@ -21,27 +21,39 @@ class YoutubePlayer extends React.Component {
 		this.clearTimerInterval = this.clearTimerInterval.bind(this);
 	}
 	componentDidMount() {
-		if (this.props.type === 'youtube') {
-			YoutubeIframeLoader.load(YT => this.onMountOrLoad(YT));
-		}
+		YoutubeIframeLoader.load(() => {
+			if (this.props.type === 'youtube') {
+				this.onMountOrLoad(this.props.trackUrl);
+			}
+		});
 	}
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.type !== 'youtube') {
-			this.props.stop();
-		} else if (nextProps.trackUrl !== this.props.trackUrl) {
-			this.setState(
-				{ loaded: false },
-				() => this.state.player.loadVideoById(nextProps.trackUrl)
-			);
+		if (this.props.type && nextProps.trackUrl !== this.props.trackUrl) {
+			if (nextProps.type !== 'youtube') {
+				this.state.player.stopVideo();
+				this.clearTimerInterval();
+				this.setState({ loaded: false });
+			} else {
+				this.setState(
+					{ loaded: false },
+					() => {
+						if (this.state.player) {
+							this.state.player.loadVideoById(nextProps.trackUrl);
+						} else {
+							this.onMountOrLoad(this.props.trackUrl);
+						}
+					}
+				);
+			}
 		}
 	}
 	componentWillUnmount() {
 		this.clearTimerInterval();
 	}
 
-	onMountOrLoad(YT) {
-		const player = new YT.Player('player', { // eslint-disable-line no-new
-			videoId: this.props.trackUrl,
+	onMountOrLoad(trackUrl) {
+		const player = new window.YT.Player('player', { // eslint-disable-line no-new
+			videoId: trackUrl,
 			events: {
 				onReady: this.onPlayerReady,
 				onStateChange: this.onPlayerStateChange,
