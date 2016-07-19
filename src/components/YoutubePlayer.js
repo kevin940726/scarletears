@@ -8,11 +8,9 @@ class YoutubePlayer extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			player: null,
-			timer: null,
-			loaded: false,
-		};
+		this.player = null;
+		this.timer = null;
+		this.loaded = false;
 
 		this.onMountOrLoad = this.onMountOrLoad.bind(this);
 		this.onPlayerReady = this.onPlayerReady.bind(this);
@@ -29,21 +27,17 @@ class YoutubePlayer extends React.Component {
 	}
 	componentWillReceiveProps(nextProps) {
 		if (this.props.type && nextProps.trackUrl !== this.props.trackUrl) {
+			this.loaded = false;
+
 			if (nextProps.type !== 'youtube') {
-				this.state.player.stopVideo();
+				this.player.stopVideo();
 				this.clearTimerInterval();
-				this.setState({ loaded: false });
 			} else {
-				this.setState(
-					{ loaded: false },
-					() => {
-						if (this.state.player) {
-							this.state.player.loadVideoById(nextProps.trackUrl);
-						} else {
-							this.onMountOrLoad(this.props.trackUrl);
-						}
-					}
-				);
+				if (this.player) {
+					this.player.loadVideoById(nextProps.trackUrl);
+				} else {
+					this.onMountOrLoad(this.props.trackUrl);
+				}
 			}
 		}
 	}
@@ -52,23 +46,19 @@ class YoutubePlayer extends React.Component {
 	}
 
 	onMountOrLoad(trackUrl) {
-		const player = new window.YT.Player('player', { // eslint-disable-line no-new
+		this.player = new window.YT.Player('player', { // eslint-disable-line no-new
 			videoId: trackUrl,
 			events: {
 				onReady: this.onPlayerReady,
 				onStateChange: this.onPlayerStateChange,
 			},
 		});
-
-		this.setState({ player });
 	}
 	onPlayerReady() {
 		console.log('ready');
-		const { player } = this.state;
-		this.setState(
-			{ loaded: true },
-			() => this.props.setPlayer(player, this.props.onReady)
-		);
+		this.loaded = true;
+		this.props.setPlayer(this.player);
+		this.props.onReady();
 
 		fetch(`${YOUTUBE_API}?part=snippet&id=${this.props.trackUrl}&key=${API_KEY}`)
 			.then(res => res.json())
@@ -81,7 +71,7 @@ class YoutubePlayer extends React.Component {
 	onPlayerStateChange(event) {
 		console.log('state change: ', event.data);
 		if (event.data === 1) { // playing
-			if (!this.state.loaded) {
+			if (!this.loaded) {
 				this.onPlayerReady();
 			}
 			this.setTimerInterval();
@@ -94,16 +84,14 @@ class YoutubePlayer extends React.Component {
 		}
 	}
 	setTimerInterval() {
-		clearInterval(this.state.timer);
-		this.setState({
-			timer: setInterval(() => {
-				this.props.setCurrentTime(this.props.getCurrentTime());
-			}, 300), // interval may change
-		});
+		clearInterval(this.timer);
+		this.timer = setInterval(() => {
+			this.props.setCurrentTime(this.props.getCurrentTime());
+		}, 300); // interval may change
 	}
 	clearTimerInterval() {
-		clearInterval(this.state.timer);
-		this.setState({ timer: null });
+		clearInterval(this.timer);
+		this.timer = null;
 	}
 
 	render() {

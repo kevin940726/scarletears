@@ -8,7 +8,6 @@ const Player = CustomTheme => class extends React.Component {
 		super(props);
 
 		this.state = {
-			player: null,
 			track: {
 				id: '',
 				title: '',
@@ -17,6 +16,8 @@ const Player = CustomTheme => class extends React.Component {
 			currentTime: 0,
 			duration: 0,
 		};
+
+		this.player = null;
 
 		this.onReady = this.onReady.bind(this);
 		this.getVolume = this.getVolume.bind(this);
@@ -50,36 +51,36 @@ const Player = CustomTheme => class extends React.Component {
 	}
 	getVolume() {
 		if (this.props.type === 'youtube') {
-			return this.state.player.getVolume() / 100;
+			return this.player.getVolume() / 100;
 		} else if (this.props.type === 'soundcloud') {
-			return this.state.player.getVolume();
+			return this.player.getVolume();
 		}
 	}
 	getCurrentTime() {
 		if (this.props.type === 'youtube') {
-			return this.state.player.getCurrentTime();
+			return this.player.getCurrentTime();
 		} else if (this.props.type === 'soundcloud') {
-			return this.state.player.currentTime() / 1000;
+			return this.player.currentTime() / 1000;
 		}
 	}
 	getDuration() {
 		if (this.props.type === 'youtube') {
-			return this.state.player.getDuration();
+			return this.player.getDuration();
 		} else if (this.props.type === 'soundcloud') {
 			return this.state.duration;
 		}
 	}
-	setPlayer(player, cb) {
-		this.setState({ player }, cb);
+	setPlayer(player) {
+		this.player = player;
 	}
 	setMetaData(track) {
 		this.setState({ track });
 	}
 	setVolume(volume) {
 		if (this.props.type === 'youtube') {
-			this.state.player.setVolume(volume * 100);
+			this.player.setVolume(volume * 100);
 		} else if (this.props.type === 'soundcloud') {
-			this.state.player.setVolume(volume);
+			this.player.setVolume(volume);
 		}
 		this.setState({ volume });
 	}
@@ -91,24 +92,24 @@ const Player = CustomTheme => class extends React.Component {
 	}
 	play() {
 		if (this.props.type === 'youtube') {
-			this.state.player.playVideo();
+			this.player.playVideo();
 		} else if (this.props.type === 'soundcloud') {
-			this.state.player.play();
+			this.player.play();
 		}
 	}
 	pause() {
 		if (this.props.type === 'youtube') {
-			this.state.player.pauseVideo();
+			this.player.pauseVideo();
 		} else if (this.props.type === 'soundcloud') {
-			this.state.player.pause();
+			this.player.pause();
 		}
 	}
 	stop() {
 		if (this.props.type === 'youtube') {
-			this.state.player.stopVideo();
+			this.player.stopVideo();
 		} else if (this.props.type === 'soundcloud') {
-			this.state.player.seek(0);
-			this.state.player.pause();
+			this.player.seek(0);
+			this.player.pause();
 		}
 		this.setCurrentTime(0);
 	}

@@ -9,9 +9,7 @@ class SoundCloudPlayer extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			player: SC,
-		};
+		this.player = SC;
 
 		this.onMountOrLoad = this.onMountOrLoad.bind(this);
 
@@ -23,9 +21,9 @@ class SoundCloudPlayer extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		if (this.props.type && nextProps.trackUrl !== this.props.trackUrl) {
 			if (nextProps.type !== 'soundcloud') {
-				this.state.player.off('time');
-				this.state.player.seek(0);
-				this.state.player.pause();
+				this.player.off('time');
+				this.player.seek(0);
+				this.player.pause();
 			} else {
 				this.onMountOrLoad(nextProps.trackUrl);
 			}
@@ -53,8 +51,9 @@ class SoundCloudPlayer extends React.Component {
 					this.props.onEnd();
 				});
 
-				this.setState({ player });
-				this.props.setPlayer(player, this.props.onReady);
+				this.player = player;
+				this.props.setPlayer(player);
+				this.props.onReady();
 			});
 	}
 
