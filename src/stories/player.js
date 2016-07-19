@@ -52,6 +52,24 @@ storiesOf('Player', module)
 			]}
 		/>
 	))
+	.add('Youtube -> SoundCloud -> Youtube', () => (
+		<MyPlayList
+			playlist={[
+				{ type: 'youtube', trackUrl: '5FjWe31S_0g' },
+				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/iamdogibson/permanentone' },
+				{ type: 'youtube', trackUrl: 'FVpG-RtZFE0' },
+			]}
+		/>
+	))
+	.add('SoundCloud -> Youtube -> SoundCloud', () => (
+		<MyPlayList
+			playlist={[
+				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/anatu/bleach' },
+				{ type: 'youtube', trackUrl: '5FjWe31S_0g' },
+				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/iamdogibson/permanentone' },
+			]}
+		/>
+	))
 	.add('empty', () => (
 		<div></div>
 	));

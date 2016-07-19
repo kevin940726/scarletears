@@ -24,8 +24,8 @@ class SoundCloudPlayer extends React.Component {
 		if (this.props.type && nextProps.trackUrl !== this.props.trackUrl) {
 			if (nextProps.type !== 'soundcloud') {
 				this.state.player.off('time');
-				this.state.player.pause();
 				this.state.player.seek(0);
+				this.state.player.pause();
 			} else {
 				this.onMountOrLoad(nextProps.trackUrl);
 			}

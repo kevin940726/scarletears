@@ -107,8 +107,8 @@ const Player = CustomTheme => class extends React.Component {
 		if (this.props.type === 'youtube') {
 			this.state.player.stopVideo();
 		} else if (this.props.type === 'soundcloud') {
-			this.state.player.pause();
 			this.state.player.seek(0);
+			this.state.player.pause();
 		}
 		this.setCurrentTime(0);
 	}
