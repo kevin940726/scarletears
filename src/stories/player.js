@@ -70,6 +70,12 @@ storiesOf('Player', module)
 			]}
 		/>
 	))
+	.add('HTML5 from local', () => (
+		<MyPlayer
+			type="html5"
+			trackUrl={require('../assets/LetsParty.mp3')} // eslint-disable-line global-require
+		/>
+	))
 	.add('empty', () => (
 		<div></div>
 	));

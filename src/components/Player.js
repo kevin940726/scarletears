@@ -2,6 +2,7 @@
 import React from 'react';
 import YoutubePlayer from './YoutubePlayer';
 import SoundCloudPlayer from './SoundCloudPlayer';
+import Html5Player from './Html5Player';
 
 const Player = CustomTheme => class extends React.Component {
 	constructor(props) {
@@ -47,6 +48,11 @@ const Player = CustomTheme => class extends React.Component {
 				volume: this.getVolume(),
 			});
 			this.play();
+		} else if (this.props.type === 'html5') {
+			this.setState({
+				volume: this.getVolume(),
+			});
+			this.play();
 		}
 	}
 	getVolume() {
@@ -54,6 +60,8 @@ const Player = CustomTheme => class extends React.Component {
 			return this.player.getVolume() / 100;
 		} else if (this.props.type === 'soundcloud') {
 			return this.player.getVolume();
+		} else if (this.props.type === 'html5') {
+			return this.player.volume;
 		}
 	}
 	getCurrentTime() {
@@ -61,6 +69,8 @@ const Player = CustomTheme => class extends React.Component {
 			return this.player.getCurrentTime();
 		} else if (this.props.type === 'soundcloud') {
 			return this.player.currentTime() / 1000;
+		} else if (this.props.type === 'html5') {
+			return this.player.currentTime;
 		}
 	}
 	getDuration() {
@@ -68,6 +78,8 @@ const Player = CustomTheme => class extends React.Component {
 			return this.player.getDuration();
 		} else if (this.props.type === 'soundcloud') {
 			return this.state.duration;
+		} else if (this.props.type === 'html5') {
+			return this.player.duration;
 		}
 	}
 	setPlayer(player) {
@@ -81,6 +93,8 @@ const Player = CustomTheme => class extends React.Component {
 			this.player.setVolume(volume * 100);
 		} else if (this.props.type === 'soundcloud') {
 			this.player.setVolume(volume);
+		} else if (this.props.type === 'html5') {
+			this.player.volume = volume;
 		}
 		this.setState({ volume });
 	}
@@ -95,12 +109,16 @@ const Player = CustomTheme => class extends React.Component {
 			this.player.playVideo();
 		} else if (this.props.type === 'soundcloud') {
 			this.player.play();
+		} else if (this.props.type === 'html5') {
+			this.player.play();
 		}
 	}
 	pause() {
 		if (this.props.type === 'youtube') {
 			this.player.pauseVideo();
 		} else if (this.props.type === 'soundcloud') {
+			this.player.pause();
+		} else if (this.props.type === 'html5') {
 			this.player.pause();
 		}
 	}
@@ -110,6 +128,9 @@ const Player = CustomTheme => class extends React.Component {
 		} else if (this.props.type === 'soundcloud') {
 			this.player.seek(0);
 			this.player.pause();
+		} else if (this.props.type === 'html5') {
+			this.player.pause();
+			this.player.currentTime = 0;
 		}
 		this.setCurrentTime(0);
 	}
@@ -144,6 +165,21 @@ const Player = CustomTheme => class extends React.Component {
 					setDuration={this.setDuration}
 					stop={this.stop}
 				/>
+				<Html5Player
+					type={this.props.type}
+					trackUrl={this.props.trackUrl}
+					onReady={this.onReady}
+					onEnd={this.onEnd}
+					getVolume={this.getVolume}
+					getCurrentTime={this.getCurrentTime}
+					setPlayer={this.setPlayer}
+					setMetaData={this.setMetaData}
+					setVolume={this.setVolume}
+					setCurrentTime={this.setCurrentTime}
+					setDuration={this.setDuration}
+					stop={this.stop}
+				/>
+
 				<CustomTheme
 					// event
 					onReady={this.onReady}
