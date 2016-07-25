@@ -24,6 +24,7 @@ const Player = CustomTheme => class extends React.Component {
 		this.getVolume = this.getVolume.bind(this);
 		this.getCurrentTime = this.getCurrentTime.bind(this);
 		this.getDuration = this.getDuration.bind(this);
+		this.getPlayerState = this.getPlayerState.bind(this);
 		this.setPlayer = this.setPlayer.bind(this);
 		this.setMetaData = this.setMetaData.bind(this);
 		this.setVolume = this.setVolume.bind(this);
@@ -44,9 +45,6 @@ const Player = CustomTheme => class extends React.Component {
 			this.play();
 			this.setDuration(this.getDuration());
 		} else if (this.props.type === 'soundcloud') {
-			this.setState({
-				volume: this.getVolume(),
-			});
 			this.play();
 		} else if (this.props.type === 'html5') {
 			this.setState({
@@ -80,6 +78,16 @@ const Player = CustomTheme => class extends React.Component {
 			return this.state.duration;
 		} else if (this.props.type === 'html5') {
 			return this.player.duration;
+		}
+	}
+	getPlayerState() {
+		if (this.props.type === 'youtube') {
+			return this.player.getPlayerState() === 1;
+		} else if (this.props.type === 'soundcloud') {
+			console.log(this.player);
+			// return this.state.duration;
+		} else if (this.props.type === 'html5') {
+			return !this.player.paused;
 		}
 	}
 	setPlayer(player) {
@@ -187,6 +195,7 @@ const Player = CustomTheme => class extends React.Component {
 					getVolume={this.getVolume}
 					getCurrentTime={this.getCurrentTime}
 					getDuration={this.getDuration}
+					getPlayerState={this.getPlayerState}
 					setPlayer={this.setPlayer}
 					setTimerInterval={this.setTimerInterval}
 					setVolume={this.setVolume}

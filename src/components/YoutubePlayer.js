@@ -30,7 +30,9 @@ class YoutubePlayer extends React.Component {
 			this.loaded = false;
 
 			if (nextProps.type !== 'youtube') {
-				this.player.stopVideo();
+				if (this.player && this.player.stopVideo) {
+					this.player.stopVideo();
+				}
 				this.clearTimerInterval();
 			} else {
 				if (this.player) {

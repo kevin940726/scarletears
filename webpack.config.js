@@ -56,6 +56,10 @@ module.exports = {
 				'image-webpack?{progressive:true, interlaced: false, pngquant:{quality: "65-90", speed: 4}}',
 			],
 			include: path.join(__dirname, 'src')
+		}, {
+			test: /\.(mp3|ogg|mp4)$/,
+			loader: 'file-loader?name=./assets/[name].[ext]',
+			include: path.join(__dirname, 'src'),
 		}]
 	},
 	postcss: function(webpack) {

@@ -14,18 +14,17 @@ class SoundCloudPlayer extends React.Component {
 		this.onMountOrLoad = this.onMountOrLoad.bind(this);
 
 		if (this.props.type === 'soundcloud') {
-			console.log('construct');
 			this.onMountOrLoad(this.props.trackUrl);
 		}
 	}
 	componentWillReceiveProps(nextProps) {
 		if (this.props.type && nextProps.trackUrl !== this.props.trackUrl) {
-			if (nextProps.type !== 'soundcloud') {
+			if (nextProps === 'soundcloud') { // next track is soundcloud, load up the track.
+				this.onMountOrLoad(nextProps.trackUrl);
+			} else if (this.props.type === 'soundcloud') { // from soundcloud to non-soundcloud, clean up the event.
 				this.player.off('time');
 				this.player.seek(0);
 				this.player.pause();
-			} else {
-				this.onMountOrLoad(nextProps.trackUrl);
 			}
 		}
 	}
@@ -47,8 +46,10 @@ class SoundCloudPlayer extends React.Component {
 					this.props.setCurrentTime(this.props.getCurrentTime());
 				});
 				player.on('finish', () => {
-					console.log('end');
 					this.props.onEnd();
+				});
+				player.on('buffering_start', () => {
+					this.props.setVolume(this.props.getVolume());
 				});
 
 				this.player = player;

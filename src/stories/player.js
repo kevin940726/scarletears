@@ -1,11 +1,17 @@
 import React from 'react';
 import { storiesOf } from '@kadira/storybook';
 import Player, { DefaultTheme } from '../components/Player';
+import CustomTheme from '../components/DefaultTheme';
 import PlayList from '../components/PlayList';
 
+import demo1 from '../assets/LetsParty.mp3';
+import demo2 from '../assets/Time&Space.mp3';
+
 const MyPlayer = Player(DefaultTheme);
+const Scarlet = Player(CustomTheme);
 
 const MyPlayList = PlayList(MyPlayer);
+const ScarletPlaylist = PlayList(Scarlet);
 
 storiesOf('Player', module)
 	.add('Youtube', () => (
@@ -73,7 +79,25 @@ storiesOf('Player', module)
 	.add('HTML5 from local', () => (
 		<MyPlayer
 			type="html5"
-			trackUrl={require('../assets/LetsParty.mp3')} // eslint-disable-line global-require
+			trackUrl={demo1}
+		/>
+	))
+	.add('HTML5 then HTML5', () => (
+		<MyPlayList
+			playlist={[
+				{ type: 'html5', trackUrl: demo1 },
+				{ type: 'html5', trackUrl: demo2 },
+			]}
+		/>
+	))
+	.add('Scarlet Player', () => (
+		<ScarletPlaylist
+			playlist={[
+				{ type: 'html5', trackUrl: demo1 },
+				{ type: 'youtube', trackUrl: '5FjWe31S_0g' },
+				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/anatu/bleach' },
+				{ type: 'html5', trackUrl: demo2 },
+			]}
 		/>
 	))
 	.add('empty', () => (
