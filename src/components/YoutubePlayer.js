@@ -29,17 +29,15 @@ class YoutubePlayer extends React.Component {
 		if (this.props.type && nextProps.trackUrl !== this.props.trackUrl) {
 			this.loaded = false;
 
-			if (nextProps.type !== 'youtube') {
-				if (this.player && this.player.stopVideo) {
-					this.player.stopVideo();
-				}
-				this.clearTimerInterval();
-			} else {
+			if (nextProps.type === 'youtube') { // next track is youtube, load up
 				if (this.player) {
 					this.player.loadVideoById(nextProps.trackUrl);
 				} else {
-					this.onMountOrLoad(this.props.trackUrl);
+					this.onMountOrLoad(nextProps.trackUrl);
 				}
+			} else if (this.props.type === 'youtube') { // from youtube to non-youtube
+				this.player.stopVideo();
+				this.clearTimerInterval();
 			}
 		}
 	}
@@ -98,7 +96,7 @@ class YoutubePlayer extends React.Component {
 
 	render() {
 		return (
-			<div id="player"></div>
+			<div id="player" style={{ display: 'none' }}></div>
 		);
 	}
 }

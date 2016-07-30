@@ -25,10 +25,10 @@ class Html5Player extends React.Component {
 					this.player.pause();
 				}
 				this.onMountOrLoad(nextProps.trackUrl);
-			} else if (this.props === 'html5') { // from html5 to non-html5
+			} else if (this.props.type === 'html5') { // from html5 to non-html5
 				this.removeAllListener();
-				this.player.seek(0);
 				this.player.pause();
+				this.player.currentTime = 0;
 			}
 		}
 	}
@@ -53,6 +53,7 @@ class Html5Player extends React.Component {
 		this.props.setMetaData({
 			title: this.player.currentSrc,
 		});
+		this.props.setDuration(this.player.duration);
 	}
 	timeUpdate() {
 		this.props.setCurrentTime(this.player.currentTime);
