@@ -4,11 +4,13 @@ import styles from './DefaultTheme.css';
 
 const DefaultTheme = (props) => (
 	<div styleName="player">
-		<h3>{props.track.title}</h3>
-		<div>
+		<div styleName="player-control">
 			<button onClick={props.togglePlay}>play</button>
 			<button onClick={props.stop}>stop</button>
 		</div>
+
+		<h3 styleName="title">{props.track.title || 'Daft Punk - Harder, Better, Faster, Stronger'}</h3>
+
 		<div>
 			<button onClick={props.prevTrack}>prev</button>
 			<button onClick={props.nextTrack}>next</button>

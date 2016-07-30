@@ -100,6 +100,9 @@ storiesOf('Player', module)
 			]}
 		/>
 	))
+	.add('Styling default theme', () => (
+		<Scarlet />
+	))
 	.add('empty', () => (
 		<div></div>
 	));
