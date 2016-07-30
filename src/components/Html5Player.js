@@ -14,8 +14,9 @@ class Html5Player extends React.Component {
 	}
 	componentDidMount() {
 		this.player = this.refs.player;
-		this.props.setPlayer(this.player);
-		this.onMountOrLoad(this.props.trackUrl);
+		if (this.props.type === 'html5') {
+			this.onMountOrLoad(this.props.trackUrl);
+		}
 	}
 	componentWillReceiveProps(nextProps) {
 		if (this.props.type && nextProps.trackUrl !== this.props.trackUrl) {
@@ -36,6 +37,7 @@ class Html5Player extends React.Component {
 	}
 
 	onMountOrLoad(trackUrl) {
+		this.props.setPlayer(this.player);
 		this.player.src = trackUrl;
 		this.props.onReady();
 
