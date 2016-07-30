@@ -93,9 +93,9 @@ storiesOf('Player', module)
 	.add('Scarlet Player', () => (
 		<ScarletPlaylist
 			playlist={[
+				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/anatu/bleach' },
 				{ type: 'html5', trackUrl: demo1 },
 				{ type: 'youtube', trackUrl: '5FjWe31S_0g' },
-				{ type: 'soundcloud', trackUrl: 'https://soundcloud.com/anatu/bleach' },
 				{ type: 'html5', trackUrl: demo2 },
 			]}
 		/>

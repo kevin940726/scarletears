@@ -32,6 +32,7 @@ const Player = CustomTheme => class extends React.Component {
 		this.setDuration = this.setDuration.bind(this);
 		this.play = this.play.bind(this);
 		this.pause = this.pause.bind(this);
+		this.togglePlay = this.togglePlay.bind(this);
 		this.stop = this.stop.bind(this);
 
 		this.onEnd = this.props.onEnd || (() => {});
@@ -84,8 +85,7 @@ const Player = CustomTheme => class extends React.Component {
 		if (this.props.type === 'youtube') {
 			return this.player.getPlayerState() === 1;
 		} else if (this.props.type === 'soundcloud') {
-			console.log(this.player);
-			// return this.state.duration;
+			return this.player.isPlaying();
 		} else if (this.props.type === 'html5') {
 			return !this.player.paused;
 		}
@@ -128,6 +128,13 @@ const Player = CustomTheme => class extends React.Component {
 			this.player.pause();
 		} else if (this.props.type === 'html5') {
 			this.player.pause();
+		}
+	}
+	togglePlay() {
+		if (this.getPlayerState()) {
+			this.pause();
+		} else {
+			this.play();
 		}
 	}
 	stop() {
@@ -203,6 +210,7 @@ const Player = CustomTheme => class extends React.Component {
 					setDuration={this.setDuration}
 					play={this.play}
 					pause={this.pause}
+					togglePlay={this.togglePlay}
 					stop={this.stop}
 					prevTrack={this.props.prevTrack}
 					nextTrack={this.props.nextTrack}
